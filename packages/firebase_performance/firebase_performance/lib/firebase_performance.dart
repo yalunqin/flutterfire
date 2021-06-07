@@ -6,6 +6,10 @@ library firebase_performance;
 
 import 'dart:async';
 
+import 'package:firebase_performance_platform_interface/firebase_performance_platform_interface.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart'
+    show FirebasePluginPlatform;
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 

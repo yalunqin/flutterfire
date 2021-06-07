@@ -1,0 +1,3 @@
+library firebase_performance_platform_interface;
+
+export 'src/platform_interface/platform_interface_firebase_performance.dart';
