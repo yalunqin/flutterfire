@@ -57,10 +57,21 @@ class _MyAppState extends State<MyApp> {
   bool _traceHasRan = false;
   bool _httpMetricHasRan = false;
 
+  Future<Response> facebookResponse;
+
   @override
   void initState() {
     super.initState();
     _togglePerformanceCollection();
+
+    facebookResponse = getFacebookResponse();
+  }
+
+  Future<Response> getFacebookResponse() async {
+    print('Begin calling facebook');
+    Response response = await get(Uri.parse('https://www.facebook.com'));
+    print('Done calling facebook!');
+    return response;
   }
 
   Future<void> _togglePerformanceCollection() async {
