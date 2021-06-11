@@ -51,6 +51,6 @@ class TraceWeb extends TracePlatform {
 
   @override
   Future<Map<String, String>> getAttributes() async {
-    return traceDelegate.getAttributes() as Map<String, String>;
+    return traceDelegate.getAttributes().cast();
   }
 }

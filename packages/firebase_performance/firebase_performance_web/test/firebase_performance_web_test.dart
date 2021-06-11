@@ -153,6 +153,7 @@ void main() {
     });
 
     test('getAttributes', () async {
+      when(mockTrace.getAttributes()).thenReturn(<String, String>{});
       await tracePlatform.getAttributes();
       verify(mockTrace.getAttributes()).called(1);
       verifyNoMoreInteractions(mockPerformance);
