@@ -13,7 +13,7 @@ class MethodChannelFirebasePerformance extends FirebasePerformancePlatform {
   static const MethodChannel _channel =
       MethodChannel('plugins.flutter.io/firebase_performance');
 
-  MethodChannelFirebasePerformance._() : super(appInstance: null);
+  MethodChannelFirebasePerformance._();
 
   /// Returns a stub instance to allow the platform interface to access
   /// the class instance statically.
