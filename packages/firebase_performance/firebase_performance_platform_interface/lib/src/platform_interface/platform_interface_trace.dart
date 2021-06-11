@@ -3,23 +3,14 @@ import 'dart:async';
 import 'package:firebase_performance_platform_interface/src/platform_interface/platform_interface_attributes.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'platform_interface_firebase_performance.dart';
-
 abstract class TracePlatform extends PlatformInterface
     with PerformanceAttributesPlatform {
-  TracePlatform(this.performance, handle, this.name)
-      : _handle = handle,
-        super(token: _token);
-
-  static final Object _token = Object();
+  TracePlatform(this.name) : super(token: Object());
 
   static void verifyExtends(TracePlatform instance) {
-    PlatformInterface.verifyToken(instance, _token);
+    PlatformInterface.verifyToken(instance, Object());
   }
 
-  final FirebasePerformancePlatform performance;
-
-  final int _handle;
   final String name;
 
   Future<void> start() {

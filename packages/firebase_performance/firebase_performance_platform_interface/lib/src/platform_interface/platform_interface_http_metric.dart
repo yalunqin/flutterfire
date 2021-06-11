@@ -5,38 +5,34 @@ import 'platform_interface_firebase_performance.dart';
 
 abstract class HttpMetricPlatform extends PlatformInterface
     with PerformanceAttributesPlatform {
-  HttpMetricPlatform(this.performance, handle, this.url, this.httpMethod)
-      : _handle = handle,
-        super(token: _token);
-
-  static final Object _token = Object();
+  HttpMetricPlatform(this.url, this.httpMethod) : super(token: Object());
 
   static void verifyExtends(HttpMetricPlatform instance) {
-    PlatformInterface.verifyToken(instance, _token);
+    PlatformInterface.verifyToken(instance, Object);
   }
 
-  final FirebasePerformancePlatform performance;
-
-  final int _handle;
   final String url;
   final HttpMethod httpMethod;
 
-  int? _httpResponseCode;
-  int? _requestPayloadSize;
-  String? _responseContentType;
-  int? _responsePayloadSize;
-
   /// HttpResponse code of the request.
-  int? get httpResponseCode => _httpResponseCode;
+  int? get httpResponseCode {
+    throw UnimplementedError('getHttpResponseCode() is not implemented');
+  }
 
   /// Size of the request payload.
-  int? get requestPayloadSize => _requestPayloadSize;
+  int? get requestPayloadSize {
+    throw UnimplementedError('getRequestPayloadSize() is not implemented');
+  }
 
   /// Content type of the response such as text/html, application/json, etc...
-  String? get responseContentType => _responseContentType;
+  String? get responseContentType {
+    throw UnimplementedError('getResponseContentType() is not implemented');
+  }
 
   /// Size of the response payload.
-  int? get responsePayloadSize => _responsePayloadSize;
+  int? get responsePayloadSize {
+    throw UnimplementedError('getResponsePayloadSize() is not implemented');
+  }
 
   set httpResponseCode(int? httpResponseCode) {
     throw UnimplementedError('setHttpResponseCode() is not implemented');
@@ -48,6 +44,10 @@ abstract class HttpMetricPlatform extends PlatformInterface
 
   set responsePayloadSize(int? responsePayloadSize) {
     throw UnimplementedError('setResponsePayload() is not implemented');
+  }
+
+  set responseContentType(String? responseContentType) {
+    throw UnimplementedError('setResponseContentType() is not implemented');
   }
 
   Future<void> start() {
