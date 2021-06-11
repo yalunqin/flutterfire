@@ -4,32 +4,15 @@
 
 part of firebase_performance;
 
-/// Valid HttpMethods for manual network APIs.
-// ignore: constant_identifier_names
-enum HttpMethod { Connect, Delete, Get, Head, Options, Patch, Post, Put, Trace }
-
 /// The Firebase Performance API.
 ///
 /// You can get an instance by calling [FirebasePerformance.instance].
 class FirebasePerformance {
-  FirebasePerformance._(this._handle) {
-    channel.invokeMethod<bool>(
-      'FirebasePerformance#instance',
-      <String, Object?>{'handle': _handle},
-    );
-  }
+  FirebasePerformance._();
 
-  static int _nextHandle = 0;
+  static final FirebasePerformance instance = FirebasePerformance._();
 
-  final int _handle;
-
-  @visibleForTesting
-  static const MethodChannel channel =
-      MethodChannel('plugins.flutter.io/firebase_performance');
-
-  /// Singleton of [FirebasePerformance].
-  static final FirebasePerformance instance =
-      FirebasePerformance._(_nextHandle++);
+  static late final _delegate = FirebasePerformancePlatform.instance;
 
   /// Determines whether performance monitoring is enabled or disabled.
   ///
@@ -37,22 +20,15 @@ class FirebasePerformance {
   /// monitoring is disabled. This is for dynamic enable/disable state. This
   /// does not reflect whether instrumentation is enabled/disabled.
   Future<bool> isPerformanceCollectionEnabled() async {
-    final isPerformanceCollectionEnabled = await channel.invokeMethod<bool>(
-      'FirebasePerformance#isPerformanceCollectionEnabled',
-      <String, Object?>{'handle': _handle},
-    );
-    return isPerformanceCollectionEnabled!;
+    return _delegate.isPerformanceCollectionEnabled();
   }
 
   /// Enables or disables performance monitoring.
   ///
   /// This setting is persisted and applied on future invocations of your
   /// application. By default, performance monitoring is enabled.
-  Future<void> setPerformanceCollectionEnabled(bool enable) {
-    return channel.invokeMethod<void>(
-      'FirebasePerformance#setPerformanceCollectionEnabled',
-      <String, Object?>{'handle': _handle, 'enable': enable},
-    );
+  Future<void> setPerformanceCollectionEnabled(bool enabled) {
+    return _delegate.setPerformanceCollectionEnabled(enabled);
   }
 
   /// Creates a [Trace] object with given [name].
@@ -61,31 +37,12 @@ class FirebasePerformance {
   /// underscore _ character, and max length of [Trace.maxTraceNameLength]
   /// characters.
   Trace newTrace(String name) {
-    final int handle = _nextHandle++;
-
-    FirebasePerformance.channel.invokeMethod<void>(
-      'FirebasePerformance#newTrace',
-      <String, Object?>{'handle': _handle, 'traceHandle': handle, 'name': name},
-    );
-
-    return Trace._(handle, name);
+    return Trace(_delegate.newTrace(name));
   }
 
   /// Creates [HttpMetric] for collecting performance for one request/response.
   HttpMetric newHttpMetric(String url, HttpMethod httpMethod) {
-    final int handle = _nextHandle++;
-
-    FirebasePerformance.channel.invokeMethod<void>(
-      'FirebasePerformance#newHttpMetric',
-      <String, Object?>{
-        'handle': _handle,
-        'httpMetricHandle': handle,
-        'url': url,
-        'httpMethod': httpMethod.toString(),
-      },
-    );
-
-    return HttpMetric._(handle, url, httpMethod);
+    return HttpMetric(_delegate.newHttpMetric(url, httpMethod));
   }
 
   /// Creates a [Trace] object with given [name] and starts the trace.
@@ -94,8 +51,6 @@ class FirebasePerformance {
   /// underscore _ character, max length of [Trace.maxTraceNameLength]
   /// characters.
   static Future<Trace> startTrace(String name) async {
-    final Trace trace = instance.newTrace(name);
-    await trace.start();
-    return trace;
+    return Trace(await _delegate.startTrace(name));
   }
 }

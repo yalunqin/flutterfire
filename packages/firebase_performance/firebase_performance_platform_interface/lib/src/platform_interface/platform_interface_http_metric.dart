@@ -46,6 +46,10 @@ abstract class HttpMetricPlatform extends PlatformInterface
     throw UnimplementedError('setRequestPayloadSize() is not implemented');
   }
 
+  set responseContentType(String? responseContentType) {
+    throw UnimplementedError('setResponseContentType() is not implemented');
+  }
+
   set responsePayloadSize(int? responsePayloadSize) {
     throw UnimplementedError('setResponsePayload() is not implemented');
   }
