@@ -6,11 +6,10 @@
 
 import 'dart:async';
 
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:pedantic/pedantic.dart';
-
-import 'package:firebase_performance/firebase_performance.dart';
 
 void main() => runApp(const MyApp());
 
